@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redis Product Catalogue</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 80px auto;
+      text-align: center;
+    }
+
+    button, select {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+
+    #result {
+      margin-top: 25px;
+      padding: 20px;
+      background: #f2f2f2;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Product Catalogue</h1>
+
+  <select id="product">
+    <option value="1">Laptop</option>
+    <option value="2">Keyboard</option>
+    <option value="3">Mouse</option>
+    <option value="4">Monitor</option>
+    <option value="5">Headphones</option>
+  </select>
+
+  <button onclick="getProduct()">Get Product</button>
+
+  <div id="result">Select a product to begin.</div>
+
+  <script>
+    async function getProduct() {
+      const productId = document.getElementById("product").value;
+      const result = document.getElementById("result");
+
+      const url =
+        `https://hfgngr3xgb.execute-api.us-east-1.amazonaws.com/products/${productId}`;
+
+      result.textContent = "Loading...";
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (!response.ok) {
+          result.textContent = data.error || "Request failed";
+          return;
+        }
+
+        result.textContent =
+          `Product: ${data.product} | Source: ${data.source}`;
+      } catch (error) {
+        result.textContent = `Error: ${error.message}`;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+venv/
+lambda-package/
+*.zip
+__pycache__/
+*.pyc
+*.swp
+.env
+.env.*
+*.pem
+*.key
